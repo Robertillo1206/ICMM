@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICMM OS | Desktop</title>
+    <link rel="stylesheet" href="sistema.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+</head>
+<body class="os-background">
+    <nav class="navbar">
+        <div class="nav-logo">ICMM_OS <span class="version">v2.0</span></div>
+        <div class="nav-links">
+            <a href="index.html">Salir</a>
+            <a href="#" class="active">Escritorio</a>
+        </div>
+    </nav>
+
+    <main class="desktop">
+        <div class="icon-grid">
+            <!-- Acceso terminal -->
+            <div class="shortcut" onclick="window.location.href='terminal.html'">
+                <div class="icon-plate">
+                    <img src="terminal.png" alt="Terminal">
+                </div>
+                <span>CMD</span>
+            </div>
+
+            <!-- Acceso Servidores -->
+            <div class="shortcut" onclick="window.location.href='servidores.html'">
+                <div class="icon-plate">
+                    <img src="servidores.png" alt="servidores">
+                </div>
+                <span>Servidores</span>
+            </div>
+
+            <!-- Acceso a galeria -->
+            <div class="shortcut" onclick="window.location.href='galeria.html'">
+                <div class="icon-plate">
+                    <img src="Galeria.png" alt="Galeria">
+                </div>
+                <span>Galeria</span>
+            </div>
+
+            <!-- Acceso Thunderbird -->
+            <div class="shortcut" onclick="openModal('captura_thunderbird.png')">
+                <div class="icon-plate">
+                    <img src="thunderbird.png" alt="Thunderbird">
+                </div>
+                <span>Thunderbird</span>
+            </div>
+
+            <!-- Acceso Ventoy -->
+            <div class="shortcut" onclick="openModal('captura_ventoy.png')">
+                <div class="icon-plate">
+                    <img src="Ventoy.png" alt="Ventoy">
+                </div>
+                <span>Ventoy</span>
+            </div>
+
+            <!-- Acceso Talk -->
+            <div class="shortcut" onclick="openModal('captura_talk.png')">
+                <div class="icon-plate">
+                    <img src="Talk.png" alt="Talk">
+                </div>
+                <span>Talk</span>
+            </div>
+
+            <!-- Acceso Glpi -->
+            <div class="shortcut" onclick="openModal('captura_glpi.png')">
+                <div class="icon-plate">
+                    <img src="glpi.png" alt="Glpi">
+                </div>
+                <span>GLPI</span>
+            </div>
+
+            <!-- Acceso Hdtune -->
+            <div class="shortcut" onclick="openModal('captura_hdtune.png')">
+                <div class="icon-plate">
+                    <img src="hdtune.png" alt="Hd tune">
+                </div>
+                <span>Hd tune</span>
+            </div>
+
+            <!-- Acceso rufus -->
+            <div class="shortcut" onclick="openModal('captura_rufus.png')">
+                <div class="icon-plate">
+                    <img src="rufus.png" alt="Rufus">
+                </div>
+                <span>Rufus</span>
+            </div>
+
+            <!-- Acceso Nextcloud -->
+            <div class="shortcut" onclick="openModal('captura_nextcloud.png')">
+                <div class="icon-plate">
+                    <img src="nextcloud.png" alt="Nextcloud">
+                </div>
+                <span>Nextcloud</span>
+            </div>
+
+            <!-- Acceso Sophos -->
+            <div class="shortcut" onclick="openModal('captura_sophos.jpeg')">
+                <div class="icon-plate">
+                    <img src="sophos.png" alt="Sophos">
+                </div>
+                <span>Sophos</span>
+            </div>
+
+            <!-- Acceso Forticlient -->
+            <div class="shortcut" onclick="openModal('captura_forticlient.png')">
+                <div class="icon-plate">
+                    <img src="forticlient.jpeg" alt="Forticlient">
+                </div>
+                <span>Forticlient</span>
+            </div>
+            
+        </div>
+    </main>
+
+    <footer class="taskbar-container">
+        <div class="taskbar-blur"></div>
+        <div class="taskbar-content">
+            <div class="start-icon">
+                <svg viewBox="0 0 24 24" fill="#64ffda"><path d="M0 0h11.4v11.4H0V0zm12.6 0H24v11.4H12.6V0zM0 12.6h11.4V24H0V12.6zm12.6 0H24V24H12.6V12.6z"/></svg>
+            </div>
+            <div class="active-apps"><div class="indicator active"></div></div>
+            <div class="tray">
+                <span class="time" id="clock">00:00:00</span>
+                <span class="date" id="date">--/--/----</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- imagenes    -->
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <span class="close-modal">&times;</span>
+        <div class="modal-container" onclick="event.stopPropagation()">
+            <img class="modal-content" id="imgFull">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

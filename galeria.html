@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICMM | Galeria</title>
+    <link rel="stylesheet" href="galeria.css">
+</head>
+
+<body>
+
+    <div class="window-container">
+        <div class="os-window-header">
+            <div class="terminal-buttons">
+                <div class="btn close" onclick="window.location.href='sistema.html'"></div>
+                <div class="btn min"></div>
+                <div class="btn max"></div>
+            </div>
+            <div class="os-window-title">SYSTEM_GALLERY_v1.0</div>
+        </div>
+
+        <div class="canvas-wrapper">
+            <div class="gallery-grid">
+
+                <div class="node-card" onclick="openModal('Puesto.jpg', 'Puesto de trabajo')">
+                    <div class="img-preview" style="background-image: url('Puesto.jpg');"></div>
+                    <div class="node-info">Puesto de trabajo</div>
+                </div>
+
+                <div class="node-card" onclick="openModal('edificio.jpg', 'Edificio')">
+                    <div class="img-preview" style="background-image: url('edificio.jpg');"></div>
+                    <div class="node-info">Edificio</div>
+                </div>
+
+                <div class="node-card" onclick="openModal('oficina.jpeg', 'Oficina')">
+                    <div class="img-preview" style="background-image: url('oficina.jpeg');"></div>
+                    <div class="node-info">Oficina</div>
+                </div>
+
+                <div class="node-card" onclick="openModal('mantenimiento.jpeg', 'Mantenimiento')">
+                    <div class="img-preview" style="background-image: url('mantenimiento.jpeg');"></div>
+                    <div class="node-info">Mantenimiento</div>
+                </div>
+
+                <div class="node-card" onclick="openModal('burguerday.jpeg', 'Burguer Day')">
+                    <div class="img-preview" style="background-image: url('burguerday.jpeg  ');"></div>
+                    <div class="node-info">Burguer Day</div>
+                </div>
+
+                <div class="node-card" onclick="openModal('fibra.jpg', 'Fibra')">
+                    <div class="img-preview" style="background-image: url('fibra.jpg');"></div>
+                    <div class="node-info">Fibra</div>
+                </div>
+
+                <div class="node-card" onclick="openModal('RackA.jpeg', 'Rack A')">
+                    <div class="img-preview" style="background-image: url('RackA.jpeg');"></div>
+                    <div class="node-info">Rack A</div>
+                </div>
+
+                <div class="node-card" onclick="openModal('RackB.jpeg', 'Rack B')">
+                    <div class="img-preview" style="background-image: url('RackB.jpeg');"></div>
+                    <div class="node-info">Rack B</div>
+                </div>
+
+                <div class="node-card" onclick="openModal('Rack1.jpeg', 'Rack 1')">
+                    <div class="img-preview" style="background-image: url('Rack1.jpeg');"></div>
+                    <div class="node-info">Rack 1</div>
+                </div>
+
+                <div class="node-card" onclick="openModal('Rack2.jpeg', 'Rack 2')">
+                    <div class="img-preview" style="background-image: url('Rack2.jpeg');"></div>
+                    <div class="node-info">Rack 2</div>
+                </div>
+
+                <div class="node-card" onclick="openModal('aire.jpg', 'Aire comprimido')">
+                    <div class="img-preview" style="background-image: url('aire.jpg');"></div>
+                    <div class="node-info">Aire comprimido</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal-content-wrap">
+            <h2 id="modal-title"></h2>
+            <div class="img-container">
+                <img src="" alt="" class="modal-img" id="modalImg">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(url, title) {
+            document.getElementById('modalImg').src = url;
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modalOverlay').style.display = 'flex';
+        }
+
+        function closeModal(e) {
+            if (e.target.id === 'modalOverlay') {
+                document.getElementById('modalOverlay').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+:root {
+    --primary: #64ffda;
+    --win-glass: rgba(15, 15, 15, 0.8);
+    --text: #ccd6f6;
+}
+
+@keyframes terminalPop {
+    0% { transform: scale(0.8) translateY(50px); opacity: 0; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+body.terminal-body {
+    background: radial-gradient(circle at center, #167581 0%, #040f35 100%);
+    height: 100vh; margin: 0; display: flex; 
+    justify-content: center; align-items: center;
+    font-family: 'Fira Code', monospace;
+}
+
+.terminal-window {
+    width: 85%; max-width: 900px; height: 65vh;
+    background: var(--win-glass);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(100, 255, 218, 0.3);
+    border-radius: 10px;
+    display: flex; flex-direction: column;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+    animation: terminalPop 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.terminal-header { background: rgba(255,255,255,0.1); padding: 10px 15px; display: flex; align-items: center; border-bottom: 1px solid rgba(100, 255, 218, 0.1); }
+.terminal-buttons { display: flex; gap: 8px; }
+.btn { width: 12px; height: 12px; border-radius: 50%; }
+.close { background: #ff5f56; cursor: pointer; }
+.min { background: #ffbd2e; }
+.max { background: #27c93f; }
+.terminal-title { flex-grow: 1; text-align: center; font-size: 0.8rem; color: var(--primary); opacity: 0.7; }
+
+.terminal-content { padding: 20px; flex-grow: 1; overflow-y: auto; color: var(--text); font-size: 14px; line-height: 1.5; }
+#command-input { background: transparent; border: none; color: var(--primary); font-family: 'Fira Code', monospace; font-size: 14px; outline: none; flex-grow: 1; }
+
+/* Ajuste responsive añadido sin cambiar tu formato */
+@media (max-width: 600px) {
+    .terminal-window { width: 95%; height: 80vh; }
+}

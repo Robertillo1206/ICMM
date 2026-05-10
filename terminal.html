@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICMM | Terminal de Red</title>
+    <link rel="stylesheet" href="terminal.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="terminal-body">
+
+    <div class="terminal-window">
+        <!-- Barra de herramientas superior -->
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <span class="btn close" onclick="window.location.href='sistema.html'"></span>
+                <span class="btn min"></span>
+                <span class="btn max"></span>
+            </div>
+            <div class="terminal-title">CMD - Roberto</div>
+        </div>
+
+        <!-- Cuerpo de la Terminal -->
+        <div class="terminal-content" id="terminal-content">
+            <div id="history">
+                <div class="line">SISTEMA OPERATIVO ICMM [Versión 2.0.26]</div>
+                <div class="line">Cargando módulos de red... [OK]</div>
+                <div class="line">Escribe <span style="color:var(--primary)">'help'</span> para los comandos disponibles.</div>
+                <br>
+            </div>
+            <div class="input-line" style="display: flex;">
+                <span class="prompt" style="color: #c678dd; margin-right: 10px; font-family: 'Fira Code';">roberto@icmm-os:~$</span>
+                <input type="text" id="command-input" autofocus autocomplete="off">
+            </div>
+        </div>
+    </div>
+
+    <script src="terminal.js"></script>
+</body>
+</html>
