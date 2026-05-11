@@ -18,7 +18,6 @@
 
     <main class="desktop">
         <div class="icon-grid">
-            <!-- Acceso terminal -->
             <div class="shortcut" onclick="window.location.href='terminal.html'">
                 <div class="icon-plate">
                     <img src="terminal.png" alt="Terminal">
@@ -26,7 +25,6 @@
                 <span>CMD</span>
             </div>
 
-            <!-- Acceso Servidores -->
             <div class="shortcut" onclick="window.location.href='servidores.html'">
                 <div class="icon-plate">
                     <img src="servidores.png" alt="servidores">
@@ -34,15 +32,13 @@
                 <span>Servidores</span>
             </div>
 
-            <!-- Acceso a galeria -->
             <div class="shortcut" onclick="window.location.href='galeria.html'">
                 <div class="icon-plate">
-                    <img src="galeria.png" alt="Galeria">
+                    <img src="Galeria.png" alt="Galeria">
                 </div>
                 <span>Galeria</span>
             </div>
 
-            <!-- Acceso Thunderbird -->
             <div class="shortcut" onclick="openModal('captura_thunderbird.png')">
                 <div class="icon-plate">
                     <img src="thunderbird.png" alt="Thunderbird">
@@ -50,7 +46,6 @@
                 <span>Thunderbird</span>
             </div>
 
-            <!-- Acceso Ventoy -->
             <div class="shortcut" onclick="openModal('captura_ventoy.png')">
                 <div class="icon-plate">
                     <img src="Ventoy.png" alt="Ventoy">
@@ -58,7 +53,6 @@
                 <span>Ventoy</span>
             </div>
 
-            <!-- Acceso Talk -->
             <div class="shortcut" onclick="openModal('captura_talk.png')">
                 <div class="icon-plate">
                     <img src="Talk.png" alt="Talk">
@@ -66,7 +60,6 @@
                 <span>Talk</span>
             </div>
 
-            <!-- Acceso Glpi -->
             <div class="shortcut" onclick="openModal('captura_glpi.png')">
                 <div class="icon-plate">
                     <img src="glpi.png" alt="Glpi">
@@ -74,7 +67,6 @@
                 <span>GLPI</span>
             </div>
 
-            <!-- Acceso Hdtune -->
             <div class="shortcut" onclick="openModal('captura_hdtune.png')">
                 <div class="icon-plate">
                     <img src="hdtune.png" alt="Hd tune">
@@ -82,7 +74,6 @@
                 <span>Hd tune</span>
             </div>
 
-            <!-- Acceso rufus -->
             <div class="shortcut" onclick="openModal('captura_rufus.png')">
                 <div class="icon-plate">
                     <img src="rufus.png" alt="Rufus">
@@ -90,15 +81,13 @@
                 <span>Rufus</span>
             </div>
 
-            <!-- Acceso Nextcloud -->
             <div class="shortcut" onclick="openModal('captura_nextcloud.png')">
                 <div class="icon-plate">
-                    <img src="Nextcloud.png" alt="Nextcloud">
+                    <img src="nextcloud.png" alt="Nextcloud">
                 </div>
                 <span>Nextcloud</span>
             </div>
 
-            <!-- Acceso Sophos -->
             <div class="shortcut" onclick="openModal('captura_sophos.jpeg')">
                 <div class="icon-plate">
                     <img src="sophos.png" alt="Sophos">
@@ -106,7 +95,6 @@
                 <span>Sophos</span>
             </div>
 
-            <!-- Acceso Forticlient -->
             <div class="shortcut" onclick="openModal('captura_forticlient.png')">
                 <div class="icon-plate">
                     <img src="forticlient.jpeg" alt="Forticlient">
@@ -117,10 +105,34 @@
         </div>
     </main>
 
+    <div id="start-menu" class="start-menu">
+        <div class="user-profile">
+            <div class="user-avatar">
+                <img src="tu_foto.jpg" alt="User" onerror="this.src='https://ui-avatars.com/api/?name=Roberto&background=64ffda&color=0a192f'">
+            </div>
+            <div class="user-info">
+                <span class="user-name">Roberto</span>
+                <span class="user-role">TIC ICMM-CSIC</span>
+            </div>
+        </div>
+        
+        <div class="menu-divider"></div>
+        
+        <div class="menu-links">
+            <div class="menu-item"><span class="icon">📧</span> robertoaperalta06@gmail.com</div>
+            <div class="menu-item"><span class="icon">📍</span> Madrid, España</div>
+            <div class="menu-item"><span class="icon">💼</span> Estudiante de Prácticas</div>
+        </div>
+
+        <div class="menu-footer" onclick="window.location.reload()">
+            <span class="icon">🔄</span> Reiniciar Sistema
+        </div>
+    </div>
+
     <footer class="taskbar-container">
         <div class="taskbar-blur"></div>
         <div class="taskbar-content">
-            <div class="start-icon">
+            <div class="start-icon" id="start-button">
                 <svg viewBox="0 0 24 24" fill="#64ffda"><path d="M0 0h11.4v11.4H0V0zm12.6 0H24v11.4H12.6V0zM0 12.6h11.4V24H0V12.6zm12.6 0H24V24H12.6V12.6z"/></svg>
             </div>
             <div class="active-apps"><div class="indicator active"></div></div>
@@ -131,7 +143,6 @@
         </div>
     </footer>
 
-    <!-- imagenes    -->
     <div id="imageModal" class="modal" onclick="closeModal()">
         <span class="close-modal">&times;</span>
         <div class="modal-container" onclick="event.stopPropagation()">
@@ -139,6 +150,82 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const startBtn = document.getElementById('start-button');
+        const startMenu = document.getElementById('start-menu');
+
+        // Abrir/Cerrar menú
+        startBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            startMenu.classList.toggle('active');
+        });
+
+        // Cerrar al hacer clic fuera
+        document.addEventListener('click', (e) => {
+            if (!startMenu.contains(e.target) && e.target !== startBtn) {
+                startMenu.classList.remove('active');
+            }
+        });
+
+        // Reloj de la barra de tareas
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const date = now.toLocaleDateString();
+            document.getElementById('clock').textContent = time;
+            document.getElementById('date').textContent = date;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Función para los modales de imágenes
+        function openModal(imgSrc) {
+            document.getElementById('imgFull').src = imgSrc;
+            document.getElementById('imageModal').style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        const notifications = [
+    { title: "SISTEMA", msg: "Copia de seguridad semanal completada en Rack 2." },
+    { title: "SEGURIDAD", msg: "Escaneo de virus finalizado. 0 amenazas detectadas." },
+    { title: "RED", msg: "Nueva conexión detectada en el nodo Fibra Principal." },
+    { title: "SISTEMA", msg: "Actualización de parches disponible para Forticlient." },
+    { title: "HARDWARE", msg: "Temperatura del Rack 1 estable: 22°C." }
+];
+
+function createNotification() {
+    const container = document.getElementById('notification-container');
+    const note = notifications[Math.floor(Math.random() * notifications.length)];
+    
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `
+        <div class="toast-header">
+            <span class="toast-title">[ ${note.title} ]</span>
+        </div>
+        <div class="toast-body">${note.msg}</div>
+    `;
+    
+    container.appendChild(toast);
+    
+    // Eliminar la notificación después de 5 segundos
+    setTimeout(() => {
+        toast.classList.add('hide');
+        setTimeout(() => toast.remove(), 500);
+    }, 5000);
+}
+
+// Lanzar una notificación inicial a los 3 segundos
+setTimeout(createNotification, 3000);
+
+// Lanzar notificaciones aleatorias cada 45 segundos
+setInterval(createNotification, 45000);
+    
+    </script>
+    
+    <div id="notification-container" class="notification-container"></div>
+
 </body>
 </html>
