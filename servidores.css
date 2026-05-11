@@ -3,7 +3,7 @@
     --win-glass: rgba(15, 15, 15, 0.85);
     --text: #ccd6f6;
     --font-code: 'Fira Code', monospace;
-    --accent-blue: #00eeff; 
+    --font-main: 'Inter', sans-serif;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -15,20 +15,18 @@ body {
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    font-family: var(--font-main);
 }
 
-/* --- ANIMACIONES (SIN CAMBIOS) --- */
+/* --- ANIMACIONES --- */
 @keyframes windowPop {
-    0% { transform: scale(0.5) translateY(100px); opacity: 0; filter: brightness(2) blur(15px); }
-    70% { transform: scale(1.02) translateY(-5px); }
-    100% { transform: scale(1) translateY(0); opacity: 1; filter: brightness(1) blur(0); }
+    0% { transform: scale(0.7); opacity: 0; filter: blur(10px); }
+    100% { transform: scale(1); opacity: 1; filter: blur(0); }
 }
 
 @keyframes scanline {
     0% { top: 0%; opacity: 0; }
-    5% { opacity: 0.5; }
-    50% { opacity: 0.8; }
-    95% { opacity: 0.5; }
+    50% { opacity: 0.5; }
     100% { top: 100%; opacity: 0; }
 }
 
@@ -37,15 +35,13 @@ body {
     50% { border-color: var(--primary); box-shadow: 0 0 20px rgba(100, 255, 218, 0.4); }
 }
 
-/* --- CONTENEDOR PRINCIPAL --- */
+/* --- CONTENEDOR DE LA VENTANA --- */
 .window-container {
-    width: 95%;
-    max-width: 960px;
     box-shadow: 0 50px 100px rgba(0,0,0,0.7);
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid rgba(100, 255, 218, 0.3);
-    animation: windowPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation: windowPop 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .os-window-header {
@@ -70,25 +66,18 @@ body {
     font-size: 0.75rem;
     color: var(--primary);
     letter-spacing: 2px;
+    opacity: 0.7;
 }
 
-.canvas-wrapper {
-    width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    background: var(--win-glass);
-    -webkit-overflow-scrolling: touch;
-}
-
+/* --- PLANO TÉCNICO (CANVAS) --- */
 .room-canvas {
     width: 950px;
     height: 550px;
-    position: relative;
+    background: var(--win-glass);
     backdrop-filter: blur(15px);
-    background-image: 
-        linear-gradient(rgba(100, 255, 218, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(100, 255, 218, 0.03) 1px, transparent 1px);
-    background-size: 25px 25px;
+    position: relative;
+    background-image: radial-gradient(rgba(100, 255, 218, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
 }
 
 .room-canvas::after {
@@ -97,16 +86,15 @@ body {
     left: 0; width: 100%; height: 2px;
     background: var(--primary);
     box-shadow: 0 0 15px var(--primary);
-    filter: blur(1px);
     animation: scanline 4s linear infinite;
     z-index: 10;
 }
 
-/* --- NODOS Y EFECTO HOVER --- */
+/* --- NODOS / RACKS --- */
 .node {
     position: absolute;
     background: rgba(100, 255, 218, 0.05);
-    border: 1px solid rgba(100, 255, 218, 0.3);
+    border: 1px solid rgba(100, 255, 218, 0.4);
     border-radius: 4px;
     display: flex;
     align-items: center;
@@ -116,83 +104,162 @@ body {
     font-size: 0.8rem;
     cursor: pointer;
     transition: 0.3s;
-    z-index: 5;
     animation: nodeActive 3s infinite ease-in-out;
 }
 
 .node:hover {
     background: rgba(100, 255, 218, 0.2);
-    transform: scale(1.05);
-    z-index: 20;
     border-color: var(--primary);
-    box-shadow: 0 0 20px rgba(100, 255, 218, 0.4);
+    box-shadow: 0 0 20px rgba(100, 255, 218, 0.5);
+    transform: translateY(-3px);
 }
 
-.rack-1 { top: 80px;  left: 280px; width: 140px; height: 280px; }
+/* --- POSICIONES --- */
+.rack-1-horiz { 
+    top: 240px; /* Bajado para no solaparse con fibra */
+    left: 200px; 
+    width: 280px; 
+    height: 120px; 
+}
 .rack-2 { bottom: 60px; left: 60px;  width: 240px; height: 90px; }
 .fibra  { top: 70px;  left: 450px; width: 180px; height: 130px; }
 .rack-b { top: 90px;  right: 60px; width: 220px; height: 140px; }
 .rack-a { bottom: 90px; right: 60px; width: 210px; height: 160px; }
 
-/* --- MODAL RESPONSIVE Y CONTENIDO --- */
+/* --- MODAL TÉCNICO --- */
 .modal-overlay {
     display: none;
     position: fixed;
-    top: 0; left: 0; 
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9);
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(10px);
     z-index: 1000;
     align-items: center;
     justify-content: center;
-    padding: 15px; /* Evita que el modal toque los bordes del móvil */
 }
 
 .modal-content-wrap {
-    background: #0b192f;
-    padding: 20px;
+    background: #0a192f;
+    padding: 30px;
     border: 1px solid var(--primary);
     border-radius: 12px;
+    min-width: 500px;
+    box-shadow: 0 0 40px rgba(100, 255, 218, 0.2);
+    animation: windowPop 0.4s ease-out;
+}
+
+.modal-header-tech {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    
-    /* Responsive: se ajusta al contenido pero nunca supera la pantalla */
-    width: auto;
-    max-width: 95%;
-    max-height: 95vh;
-    animation: windowPop 0.4s ease-out forwards;
+    border-bottom: 1px solid rgba(100, 255, 218, 0.3);
+    padding-bottom: 15px;
+    margin-bottom: 25px;
 }
 
-#modal-title { 
-    color: var(--accent-blue);
-    font-family: var(--font-code); 
-    margin-bottom: 15px; 
-    text-align: center;
-    font-size: 1.1rem;
-    width: 100%;
-}
+.title-group { display: flex; align-items: center; gap: 12px; }
+.title-group h3 { color: var(--primary); font-family: var(--font-code); }
 
-.img-container { 
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.modal-img { 
-    /* Obliga a la imagen a encogerse para que se vea completa */
-    max-width: 100%;
-    max-height: 65vh; /* Ajustado para que no sea gigante en PC ni móvil */
-    height: auto;
-    width: auto;
-    object-fit: contain;
+.status-tag {
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    padding: 4px 10px;
+    font-size: 0.65rem;
     border-radius: 4px;
+    font-weight: bold;
 }
 
-.modal-footer { 
-    color: #8892b0; 
-    font-size: 0.75rem; 
-    margin-top: 15px;
-    text-align: center;
+.info-section { margin-bottom: 20px; }
+
+.section-header {
+    font-family: var(--font-code);
+    color: var(--primary);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    opacity: 0.8;
+}
+
+.code-box {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 12px;
+    border-left: 2px solid var(--primary);
+    font-size: 0.85rem;
+    color: var(--text);
+    margin-bottom: 15px;
+}
+
+/* --- ESTILOS DE INVENTARIO (NUEVO) --- */
+.inventory-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.inv-item {
+    background: rgba(100, 255, 218, 0.05);
+    border: 1px solid rgba(100, 255, 218, 0.1);
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.inv-item:hover {
+    background: rgba(100, 255, 218, 0.1);
+    border-color: var(--primary);
+}
+
+.inv-key {
+    font-size: 0.7rem;
+    color: #8892b0;
+    text-transform: uppercase;
+}
+
+.inv-val {
+    font-family: var(--font-code);
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* --- MÉTRICAS --- */
+.metrics-container {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.metric span {
+    display: block;
+    font-size: 0.65rem;
+    color: var(--primary);
+    margin-bottom: 5px;
+    font-family: var(--font-code);
+}
+
+.bar-bg {
     width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.bar-fill {
+    height: 100%;
+    background: var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+    border-radius: 3px;
+    transition: width 1s ease-in-out;
+}
+
+.modal-footer {
+    color: #8892b0;
+    font-size: 0.7rem;
+    margin-top: 25px;
+    text-align: center;
 }
