@@ -2,8 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ICMM OS | Servidores</title>
+    <title>ICMM OS | Gestión de Infraestructura</title>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="servidores.css">
 </head>
@@ -16,35 +15,110 @@
                 <span class="btn min"></span>
                 <span class="btn max"></span>
             </div>
-            <div class="os-window-title">Sala_de_servidores.exe</div>
+            <div class="os-window-title">ASSET_INVENTORY_MANAGER.exe</div>
         </div>
 
-        <!-- Raks -->
-        <div class="canvas-wrapper">
-            <div class="room-canvas">
-                <div class="node rack-1" onclick="showRack('RACK 1 (CCC)', 'Rack1.jpeg')">RACK 1</div>
-                <div class="node rack-2" onclick="showRack('RACK 2 (CCC)', 'Rack2.jpeg')">RACK 2</div>
-                <div class="node fibra"  onclick="showRack('FIBRA', 'fibra.jpg')">FIBRA</div>
-                <div class="node rack-b" onclick="showRack('RACK B', 'RackB.jpeg')">RACK B</div>
-                <div class="node rack-a" onclick="showRack('RACK A', 'RackA.jpeg')">RACK A</div>
+        <div class="room-canvas">
+            <div class="node rack-1-horiz" onclick="showTechInfo('RACK 1 (CCC)')">
+                <span class="node-label">RACK 1 (CCC)</span>
             </div>
+            <div class="node rack-2" onclick="showTechInfo('RACK 2 (CCC)')">RACK 2 (CCC)</div>
+            <div class="node fibra"  onclick="showTechInfo('CABECERA FIBRA')">FIBRA</div>
+            <div class="node rack-b" onclick="showTechInfo('RACK B')">RACK B</div>
+            <div class="node rack-a" onclick="showTechInfo('RACK A')">RACK A</div>
         </div>
     </div>
 
-    <div id="modal" class="modal-overlay" onclick="this.style.display='none'">
+    <div id="modal" class="modal-overlay" onclick="closeModal()">
         <div class="modal-content-wrap" onclick="event.stopPropagation()">
-            <h3 id="modal-title"></h3>
-            <div class="img-container">
-                <img id="modal-img" src="">
+            <div class="modal-header-tech">
+                <div class="title-group">
+                    <span class="icon">📊</span>
+                    <h3 id="modal-title"></h3>
+                </div>
+                <span class="status-tag pulse">SISTEMA_ACTIVO</span>
+            </div>
+            
+            <div class="modal-body-tech">
+                <div class="info-section">
+                    <div class="section-header">🛠️ DESCRIPCIÓN_GENERAL</div>
+                    <p id="modal-hw" class="code-box"></p>
+                </div>
+                
+                <div class="info-section">
+                    <div class="section-header">📋 INVENTARIO_DE_ACTIVOS</div>
+                    <div id="modal-inventory" class="inventory-grid">
+                        </div>
+                </div>
+
+                <div class="metrics-container">
+                    <div class="metric">
+                        <span>CAPACIDAD_RACK</span>
+                        <div class="bar-bg"><div id="bar-cap" class="bar-fill"></div></div>
+                    </div>
+                    <div class="metric">
+                        <span>CONSUMO_ENERGÉTICO</span>
+                        <div class="bar-bg"><div id="bar-pwr" class="bar-fill"></div></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        function showRack(name, imgSrc) {
-            document.getElementById('modal-title').innerText = name;
-            document.getElementById('modal-img').src = imgSrc;
+        const dbInfra = {
+            'RACK 1 (CCC)': {
+                desc: "Rack con servidores del centro de calculo.",
+                assets: { "Servidores": 12},
+                stats: { cap: "75%", pwr: "85%" }
+            },
+            'RACK 2 (CCC)': {
+                desc: "Rack con servidores del centro de calculo",
+                assets: {"Servidores": 14},
+                stats: { cap: "90%", pwr: "85%" }
+            },
+            'CABECERA FIBRA': {
+                desc: "Punto de entrada de fibra óptica",
+                assets: { "Fibra": 2, "Servidores": 1},
+                stats: { cap: "40%", pwr: "20%" }
+            },
+            'RACK B': {
+                desc: "Rack de switches y patch panels",
+                assets: { "Patch Panels": 11, "Switches": 6},
+                stats: { cap: "65%", pwr: "55%" }
+            },
+            'RACK A': {
+                desc: "Servidores de almacenamiento, DNS y router",
+                assets: {"Servidores": 12, "Routers": 1 },
+                stats: { cap: "50%", pwr: "45%" }
+            }
+        };
+
+        function showTechInfo(id) {
+            const data = dbInfra[id];
+            document.getElementById('modal-title').innerText = id;
+            document.getElementById('modal-hw').innerText = data.desc;
+            
+            // Generar la lista de inventario
+            const invContainer = document.getElementById('modal-inventory');
+            invContainer.innerHTML = "";
+            for (const [key, val] of Object.entries(data.assets)) {
+                invContainer.innerHTML += `
+                    <div class="inv-item">
+                        <span class="inv-key">${key}</span>
+                        <span class="inv-val">${val}</span>
+                    </div>`;
+            }
+
+            // Ajustar barras
+            document.getElementById('bar-cap').style.width = data.stats.cap;
+            document.getElementById('bar-pwr').style.width = data.stats.pwr;
+            
             document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
         }
     </script>
 </body>
