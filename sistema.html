@@ -137,8 +137,7 @@
         <div class="taskbar-content">
             <div class="start-icon" id="start-button">
                 <svg viewBox="0 0 24 24" fill="#64ffda">
-                    <path
-                        d="M0 0h11.4v11.4H0V0zm12.6 0H24v11.4H12.6V0zM0 12.6h11.4V24H0V12.6zm12.6 0H24V24H12.6V12.6z" />
+                    <path d="M0 0h11.4v11.4H0V0zm12.6 0H24v11.4H12.6V0zM0 12.6h11.4V24H0V12.6zm12.6 0H24V24H12.6V12.6z" />
                 </svg>
             </div>
             <div class="active-apps"></div>
@@ -174,7 +173,6 @@
     <div id="notification-container" class="notification-container"></div>
 
     <script>
-        // --- INTERFAZ BÁSICA ---
         const startBtn = document.getElementById('start-button');
         const startMenu = document.getElementById('start-menu');
 
@@ -191,37 +189,24 @@
 
         function updateClock() {
             const now = new Date();
-            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            const date = now.toLocaleDateString();
-            document.getElementById('clock').textContent = time;
-            document.getElementById('date').textContent = date;
+            document.getElementById('clock').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('date').textContent = now.toLocaleDateString();
         }
-        setInterval(updateClock, 1000);
-        updateClock();
 
         function openModal(imgSrc) {
             document.getElementById('imgFull').src = imgSrc;
             document.getElementById('imageModal').style.display = 'flex';
         }
+
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
         }
 
-        function updateResources() {
-            const cpu = Math.floor(Math.random() * (40 - 10) + 10);
-            const ram = Math.floor(Math.random() * (60 - 40) + 40);
-            document.getElementById('cpu-load').style.width = cpu + "%";
-            document.getElementById('ram-load').style.width = ram + "%";
-        }
-
-        // --- SISTEMA DE NOTIFICACIONES ---
         function createNotification() {
             const notifications = [
-                { title: "SISTEMA", msg: "Copia de seguridad semanal completada en Rack 2." },
-                { title: "SEGURIDAD", msg: "Escaneo de virus finalizado. 0 amenazas detectadas." },
-                { title: "RED", msg: "Nueva conexión detectada en el nodo Fibra Principal." },
-                { title: "SISTEMA", msg: "Actualización de parches disponible para Forticlient." },
-                { title: "HARDWARE", msg: "Temperatura del Rack 1 estable: 22°C." }
+                { title: "SISTEMA", msg: "Copia de seguridad semanal completada." },
+                { title: "SEGURIDAD", msg: "Escaneo finalizado. 0 amenazas detectadas." },
+                { title: "RED", msg: "Nodo de fibra principal estable." }
             ];
             const container = document.getElementById('notification-container');
             const note = notifications[Math.floor(Math.random() * notifications.length)];
@@ -235,38 +220,27 @@
             }, 5000);
         }
 
-        // --- SECUENCIA DE BOOT MEJORADA ---
         async function runBootSequence() {
             const container = document.getElementById('boot-text');
             const bootLines = [
-                { text: "> INITIALIZING ICMM_OS KERNEL 2.0...", speed: 30 },
-                { text: "> LOADING VIRTUAL_DRIVE_C...", speed: 30 },
-                { text: "> MOUNTING NETWORK NODES (RACK_A, RACK_B)...", speed: 40 },
-                { text: "> VERIFYING FIREWALL STATUS (SOPHOS/FORTI)...", speed: 30 },
-                { text: "> STATUS: ALL SYSTEMS OPERATIONAL", speed: 10, class: 'boot-success' },
-                { text: "> READY.", speed: 50 }
+                "> INITIALIZING ICMM_OS KERNEL 2.0...",
+                "> LOADING VIRTUAL_DRIVE_C...",
+                "> MOUNTING NETWORK NODES...",
+                "> VERIFYING FIREWALL STATUS...",
+                "> STATUS: ALL SYSTEMS OPERATIONAL",
+                "> READY."
             ];
 
-            const typeWriter = (text, element, speed) => {
-                return new Promise(resolve => {
-                    let i = 0;
-                    const timer = setInterval(() => {
-                        element.textContent += text.charAt(i);
-                        i++;
-                        if (i === text.length) {
-                            clearInterval(timer);
-                            resolve();
-                        }
-                    }, speed);
-                });
-            };
-
-            for (const lineObj of bootLines) {
-                const lineDiv = document.createElement('div');
-                lineDiv.className = 'boot-line ' + (lineObj.class || '');
-                container.appendChild(lineDiv);
-                await typeWriter(lineObj.text, lineDiv, lineObj.speed);
-                await new Promise(r => setTimeout(r, Math.random() * 300 + 100));
+            for (let lineText of bootLines) {
+                const line = document.createElement('div');
+                line.className = 'boot-line';
+                if (lineText.includes('OPERATIONAL')) line.className += ' boot-success';
+                container.appendChild(line);
+                for (let char of lineText) {
+                    line.textContent += char;
+                    await new Promise(r => setTimeout(r, 20));
+                }
+                await new Promise(r => setTimeout(r, 400));
             }
 
             setTimeout(() => {
@@ -283,11 +257,16 @@
         window.onload = () => {
             if (sessionStorage.getItem('systemLoaded') === 'true') {
                 document.getElementById('boot-screen').style.display = 'none';
-                createNotification(); 
+                createNotification();
             } else {
                 runBootSequence();
             }
-            setInterval(updateResources, 2000);
+            setInterval(() => {
+                document.getElementById('cpu-load').style.width = Math.floor(Math.random() * 20 + 10) + "%";
+                document.getElementById('ram-load').style.width = Math.floor(Math.random() * 15 + 40) + "%";
+            }, 2000);
+            updateClock();
+            setInterval(updateClock, 1000);
         };
     </script>
 </body>
