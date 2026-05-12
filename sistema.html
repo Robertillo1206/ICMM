@@ -174,6 +174,7 @@
     <div id="notification-container" class="notification-container"></div>
 
     <script>
+        // --- INTERFAZ BÁSICA ---
         const startBtn = document.getElementById('start-button');
         const startMenu = document.getElementById('start-menu');
 
@@ -206,15 +207,22 @@
             document.getElementById('imageModal').style.display = 'none';
         }
 
-        const notifications = [
-            { title: "SISTEMA", msg: "Copia de seguridad semanal completada en Rack 2." },
-            { title: "SEGURIDAD", msg: "Escaneo de virus finalizado. 0 amenazas detectadas." },
-            { title: "RED", msg: "Nueva conexión detectada en el nodo Fibra Principal." },
-            { title: "SISTEMA", msg: "Actualización de parches disponible para Forticlient." },
-            { title: "HARDWARE", msg: "Temperatura del Rack 1 estable: 22°C." }
-        ];
+        function updateResources() {
+            const cpu = Math.floor(Math.random() * (40 - 10) + 10);
+            const ram = Math.floor(Math.random() * (60 - 40) + 40);
+            document.getElementById('cpu-load').style.width = cpu + "%";
+            document.getElementById('ram-load').style.width = ram + "%";
+        }
 
+        // --- SISTEMA DE NOTIFICACIONES ---
         function createNotification() {
+            const notifications = [
+                { title: "SISTEMA", msg: "Copia de seguridad semanal completada en Rack 2." },
+                { title: "SEGURIDAD", msg: "Escaneo de virus finalizado. 0 amenazas detectadas." },
+                { title: "RED", msg: "Nueva conexión detectada en el nodo Fibra Principal." },
+                { title: "SISTEMA", msg: "Actualización de parches disponible para Forticlient." },
+                { title: "HARDWARE", msg: "Temperatura del Rack 1 estable: 22°C." }
+            ];
             const container = document.getElementById('notification-container');
             const note = notifications[Math.floor(Math.random() * notifications.length)];
             const toast = document.createElement('div');
@@ -227,58 +235,59 @@
             }, 5000);
         }
 
-        const bootLines = [
-            "> INITIALIZING ICMM_OS KERNEL 2.0...",
-            "> LOADING VIRTUAL_DRIVE_C...",
-            "> MOUNTING NETWORK NODES (RACK_A, RACK_B)...",
-            "> ESTABLISHING SECURE CONNECTION...",
-            "> STATUS: ALL SYSTEMS OPERATIONAL",
-            "> READY."
-        ];
-
-        function runBootSequence() {
+        // --- SECUENCIA DE BOOT MEJORADA ---
+        async function runBootSequence() {
             const container = document.getElementById('boot-text');
-            let lineIdx = 0;
-            const interval = setInterval(() => {
-                if (lineIdx < bootLines.length) {
-                    const line = document.createElement('div');
-                    line.className = 'boot-line';
-                    line.textContent = bootLines[lineIdx];
-                    if (lineIdx === 4) line.classList.add('boot-success');
-                    container.appendChild(line);
-                    lineIdx++;
-                } else {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        const screen = document.getElementById('boot-screen');
-                        screen.style.opacity = '0';
-                        setTimeout(() => { screen.style.display = 'none'; }, 500);
-                        // Guardamos que ya se cargó
-                        sessionStorage.setItem('systemLoaded', 'true');
-                    }, 1000);
-                }
-            }, 400);
-        }
+            const bootLines = [
+                { text: "> INITIALIZING ICMM_OS KERNEL 2.0...", speed: 30 },
+                { text: "> LOADING VIRTUAL_DRIVE_C...", speed: 30 },
+                { text: "> MOUNTING NETWORK NODES (RACK_A, RACK_B)...", speed: 40 },
+                { text: "> VERIFYING FIREWALL STATUS (SOPHOS/FORTI)...", speed: 30 },
+                { text: "> STATUS: ALL SYSTEMS OPERATIONAL", speed: 10, class: 'boot-success' },
+                { text: "> READY.", speed: 50 }
+            ];
 
-        function updateResources() {
-            const cpu = Math.floor(Math.random() * (40 - 10) + 10);
-            const ram = Math.floor(Math.random() * (60 - 40) + 40);
-            document.getElementById('cpu-load').style.width = cpu + "%";
-            document.getElementById('ram-load').style.width = ram + "%";
+            const typeWriter = (text, element, speed) => {
+                return new Promise(resolve => {
+                    let i = 0;
+                    const timer = setInterval(() => {
+                        element.textContent += text.charAt(i);
+                        i++;
+                        if (i === text.length) {
+                            clearInterval(timer);
+                            resolve();
+                        }
+                    }, speed);
+                });
+            };
+
+            for (const lineObj of bootLines) {
+                const lineDiv = document.createElement('div');
+                lineDiv.className = 'boot-line ' + (lineObj.class || '');
+                container.appendChild(lineDiv);
+                await typeWriter(lineObj.text, lineDiv, lineObj.speed);
+                await new Promise(r => setTimeout(r, Math.random() * 300 + 100));
+            }
+
+            setTimeout(() => {
+                const screen = document.getElementById('boot-screen');
+                screen.style.opacity = '0';
+                setTimeout(() => { 
+                    screen.style.display = 'none'; 
+                    sessionStorage.setItem('systemLoaded', 'true');
+                    createNotification();
+                }, 500);
+            }, 1000);
         }
 
         window.onload = () => {
-            // Lógica de carga selectiva
             if (sessionStorage.getItem('systemLoaded') === 'true') {
                 document.getElementById('boot-screen').style.display = 'none';
                 createNotification(); 
             } else {
                 runBootSequence();
-                setTimeout(createNotification, 6000);
             }
-            
             setInterval(updateResources, 2000);
-            updateClock();
         };
     </script>
 </body>
