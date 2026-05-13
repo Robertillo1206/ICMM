@@ -1,73 +1,112 @@
-/* Recuperado íntegramente de tu CSS de inicio con ajustes responsive */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body.bg-black-index {
-    background: #000;
+    background: #010806;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'Fira Code', monospace;
     overflow: hidden;
-    color: #fff;
+    color: #64ffda;
+}
+
+.background-glow {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw; height: 80vh;
+    background: radial-gradient(circle, rgba(100, 255, 218, 0.05) 0%, transparent 70%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.grid-background {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        linear-gradient(rgba(100, 255, 218, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100, 255, 218, 0.08) 1px, transparent 1px);
+    background-size: 60px 60px;
+    transform: perspective(1000px) rotateX(60deg) translateY(-100px) scale(2);
+    transform-origin: top;
+    animation: grid-scroll 30s linear infinite;
+    z-index: 1;
+}
+
+@keyframes grid-scroll {
+    from { background-position: 0 0; }
+    to { background-position: 0 100%; }
+}
+
+.particle {
+    position: absolute;
+    background: #64ffda;
+    border-radius: 50%;
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.noise {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: url('https://grainy-gradients.vercel.app/noise.svg');
+    opacity: 0.04; z-index: 10; pointer-events: none;
+}
+
+.vignette {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.9) 100%);
+    z-index: 15; pointer-events: none;
 }
 
 .scanlines {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-    background-size: 100% 2px, 3px 100%;
-    pointer-events: none;
-    z-index: 2;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
+    background-size: 100% 4px;
+    z-index: 20; pointer-events: none;
 }
 
 .hero-content { 
-    text-align: center; 
-    z-index: 10; 
-    padding: 20px;
-    width: 100%;
+    text-align: center; z-index: 30; padding: 40px;
+    background: rgba(0, 5, 4, 0.7);
+    border: 1px solid rgba(100, 255, 218, 0.2);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 1);
+    backdrop-filter: blur(5px);
 }
 
-.status-bar { 
-    color: #64ffda; 
-    font-size: clamp(0.7rem, 2vw, 0.8rem); 
-    margin-bottom: 1rem; 
-    letter-spacing: 2px; 
+.hero-title { 
+    font-size: clamp(1.8rem, 8vw, 3.5rem); 
+    color: #64ffda; margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+}
+
+.btn-start {
+    background: transparent; border: 1px solid #64ffda; color: #64ffda;
+    padding: 15px 35px; font-family: 'Fira Code'; cursor: pointer;
+    transition: all 0.3s; font-weight: bold; letter-spacing: 2px;
+}
+.btn-start:hover { 
+    background: #64ffda; color: #000; 
+    box-shadow: 0 0 30px rgba(100, 255, 218, 0.6); 
+}
+
+#loader-container { display: none; margin-top: 30px; width: 100%; max-width: 350px; margin: 30px auto 0; }
+.progress-wrapper { width: 100%; height: 4px; background: rgba(100, 255, 218, 0.1); border: 1px solid rgba(100, 255, 218, 0.3); margin-top: 10px; }
+
+#progress-bar { 
+    width: 0%; 
+    height: 100%; 
+    background: #64ffda; 
+    box-shadow: 0 0 15px #64ffda;
+    /* Mejora de fluidez mediante transición CSS */
+    transition: width 0.1s linear; 
+}
+
+.footer-tech {
+    position: fixed; bottom: 20px; font-size: 0.6rem;
+    color: rgba(100, 255, 218, 0.3); letter-spacing: 4px; width: 100%; text-align: center;
 }
 
 .dot-blink { height: 8px; width: 8px; background-color: #64ffda; border-radius: 50%; display: inline-block; animation: blink 1s infinite; }
 @keyframes blink { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
-
-.hero-title { 
-    font-size: clamp(1.8rem, 8vw, 3.5rem); 
-    color: #64ffda; 
-    margin-bottom: 0.5rem; 
-}
-
-.hero-subtitle { 
-    color: #8892b0; 
-    font-size: clamp(0.9rem, 4vw, 1.2rem); 
-    margin-bottom: 2rem; 
-}
-
-.btn-start {
-    background: transparent;
-    border: 1px solid #64ffda;
-    color: #64ffda;
-    padding: 15px 30px;
-    font-family: 'Fira Code';
-    cursor: pointer;
-    transition: all 0.3s;
-}
-.btn-start:hover { background: rgba(100, 255, 218, 0.1); box-shadow: 0 0 20px #64ffda; }
-
-/* Contenedor de carga responsive */
-#loader-container { 
-    display: none; 
-    margin-top: 30px;   
-    width: 100%; 
-    max-width: 350px; 
-    margin-left: auto; 
-    margin-right: auto; 
-}
