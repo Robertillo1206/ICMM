@@ -11,6 +11,7 @@ const responses = {
             "├── VLAN 1 (Servidores)\n" +
             "├── VLAN 140 (Impresoras)\n" +
             "├── VLAN 216 (Invitados)\n" +
+            "├── VLAN 204 (Windows 10)\n" +
             "└── VLAN 26 (Switches)",
     'exit': "Cerrando sesión y volviendo al sistema..."
 };
